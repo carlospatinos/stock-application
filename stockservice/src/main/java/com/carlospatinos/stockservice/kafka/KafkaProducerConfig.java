@@ -42,9 +42,4 @@ public class KafkaProducerConfig {
         log.info("kafkaTemplate being created");
         return new KafkaTemplate<>(producerFactory());
     }
-
-    public void send() {
-        KafkaTemplate<String, String> kafkaTemplate = kafkaTemplate();
-        kafkaTemplate.send("stocktopic", "Test ");
-    }
 }

@@ -1,7 +1,10 @@
 package com.carlospatinos.stockservice;
 
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.kafka.core.KafkaTemplate;
 
 @SpringBootApplication
 public class StockServiceApplication {
@@ -10,11 +13,11 @@ public class StockServiceApplication {
 		SpringApplication.run(StockServiceApplication.class, args);
 	}
 
-	// @Bean
-	// public ApplicationRunner runner(KafkaTemplate<String, String> template) {
-	// return args -> {
-	// template.send("stocktopic", "footest");
-	// };
-	// }
+	@Bean
+	public ApplicationRunner runner(KafkaTemplate<String, String> template) {
+		return args -> {
+			template.send("stocktopic", "footest");
+		};
+	}
 
 }

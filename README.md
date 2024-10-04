@@ -4,6 +4,7 @@ Docker, docker-compose, lucidchart and other technologies.
 
 # Build state
 A github action workflow will be defined to show the status of the project.
+
 ![BUILD](https://github.com/carlospatinos/stock-application/actions/workflows/gradle-build.yml/badge.svg)
 
 
@@ -17,7 +18,22 @@ Here you will have a mix of projects living under the same home (same git repo).
 - Gradle (alternatively you can use the wrapper here gradlew)
 - Docker 
 - Docker compose 
-- 
+
+
+# Ports required
+
+```mermaid
+flowchart
+    newLines["`<8080>
+    Stock Service`"]
+    
+    newLines2["`<8081>
+    Payment Service`"]
+    
+```
+
+
+
 # Run
 
 For the required infrastructure, a docker-compose file has been created inside docker folder which will pull images for kafka, zookeeper and schema registry. This needs to be up and running before any of the sub-projects is started as some of them will require kafka to work.
