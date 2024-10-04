@@ -10,7 +10,7 @@ A github action workflow will be defined to show the status of the project.
 # Ideal State
 Here you will have a mix of projects living under the same home (same git repo). Besides this is not the real production structure, the idea here is just to demonstrate different spring boot applications working together sending REST-API requests, Kafka Messages and interacting with a Front-end application written in React.
 
-![Architecture diagram](https://github.com/carlospatinos/stock-application/blob/main/doc/SpringBootEnterpriseApp.jpg?raw=true)
+![Architecture diagram](https://github.com/carlospatinos/stock-application/blob/main/doc/SpringBootEnterpriseApp.png?raw=true)
 
 # Requirements 
 - Java 8 installed
