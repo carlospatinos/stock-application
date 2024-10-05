@@ -1,6 +1,7 @@
-import React,{ useEffect, useState } from 'react';
+import React,{ useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { getToken, onMessage } from "firebase/messaging";
 import { messaging } from "./firebase/firebaseConfig";
@@ -10,7 +11,6 @@ import "react-toastify/dist/ReactToastify.css";
 import StockPage from './stocks/StocksPage';
 
 function App() {
-  const [count, setCount] = useState(0);
   const { REACT_APP_VAPID_KEY } = process.env;
   async function requestPermission() {
     //requesting permission using Notification API
@@ -42,8 +42,8 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <StockPage />
       </header>
+      <StockPage />
       <ToastContainer />
     </div>
   );

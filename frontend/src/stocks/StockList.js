@@ -1,15 +1,37 @@
 import React from 'react';
-import { Stock } from './Stocks';
+import { Stock } from './Stock';
 import PropTypes from 'prop-types';
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
+import { StockCard } from './StockCard';
 
 function StockList({ stocks }) {
-    console.log(stocks);
     return (
-        <ul className="row">
+        <div className="row">
             {stocks.map((stock) => (
-                <li key={stock.name}>{stock.name}</li>
+                <Card key={stock.id} style={{ width: '18rem' }}>
+                    {/* <Card.Img variant="top" src="/logo192.png" /> */}
+                    <Card.Body>
+                        <Card.Title>{stock.name}</Card.Title>
+                        <Card.Text>
+                            {stock.price.toLocaleString()}
+                        </Card.Text>
+                        <Button variant="primary">Sell</Button>
+                    </Card.Body>
+                </Card>
             ))}
-        </ul>
+            {/* {stocks.map((stock) => (
+                <div key={stock.id} className="cols-sm">
+                    <StockCard stock={stock}></StockCard>
+                    <pre></pre>
+                </div>
+            ))} */}
+            {/* <ul className="row">
+                {stocks.map((stock) => (
+                    <li key={stock.id}>{stock.name}</li>
+                ))}
+            </ul> */}
+        </div>
     );
 }
 StockList.propTypes = {
