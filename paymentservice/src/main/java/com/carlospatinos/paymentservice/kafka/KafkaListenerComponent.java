@@ -12,6 +12,7 @@ public class KafkaListenerComponent {
     @Value(value = "${application.topic}")
     private String appTopic;
 
+    // TODO remove this hardcoded topic
     @KafkaListener(topics = "stocktopic", groupId = "group1")
     void listener(String data) {
         log.info("Received message [{}] in group1", data);
