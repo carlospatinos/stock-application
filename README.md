@@ -57,3 +57,9 @@ Make sure the project compiles. Go into the different sub-projects and compile t
 
 Each microservice exposes some metrics in the following endpoint: 
 http://localhost:8080/actuator 
+
+# TODOs
+- [ ] Cucumber 
+- [ ] OpenAPI
+- [ ] FrondEnd consuming stockApp api
+- [ ] Kafka message for buying operationß
