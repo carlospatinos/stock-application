@@ -24,15 +24,18 @@ Here you will have a mix of projects living under the same home (same git repo).
 
 ```mermaid
 flowchart
-    newLines["`<8080>
+    stockService["`<8080>
     Stock Service`"]
     
-    newLines2["`<8081>
+    paymentService["`<8081>
     Payment Service`"]
     
+    notificationService["`<8082>
+    Notification Service`"]
+
+    frontendService["`<3000>
+    FrontEnd Service`"]
 ```
-
-
 
 # Run
 

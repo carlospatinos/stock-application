@@ -40,4 +40,24 @@ public class NotificationServiceController {
                 HttpStatus.OK);
     }
 
+    @PostMapping("/submission")
+    public ResponseEntity<?> sendNotification2(@RequestBody NotificationRequest request)
+            throws InterruptedException, ExecutionException {
+
+        fcmService.sendMessageToToken(request);
+
+        return ResponseEntity.ok("Service working");
+
+    }
+
+    @PostMapping("/subscription")
+    public ResponseEntity<?> subscribe(@RequestBody NotificationRequest request)
+            throws InterruptedException, ExecutionException {
+
+        fcmService.subscribeNotification(request);
+
+        return ResponseEntity.ok("Service working");
+
+    }
+
 }

@@ -11,7 +11,10 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.Notification;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class FCMService {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -28,5 +31,9 @@ public class FCMService {
         // String jsonOutput = gson.toJson(message);
         String response = sendAndGetResponse(message);
         logger.info("Sent message response {}", response);
+    }
+
+    public void subscribeNotification(NotificationRequest request) {
+        log.info("request: {}", request);
     }
 }
