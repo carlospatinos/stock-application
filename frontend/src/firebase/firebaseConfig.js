@@ -2,7 +2,6 @@ import { initializeApp } from "firebase/app";
 
 import { getMessaging } from "firebase/messaging";
 
-console.log("REACT_APP_API_KEY: " + process.env.REACT_APP_API_KEY);
 //Firebase Config values imported from .env file
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_API_KEY,
