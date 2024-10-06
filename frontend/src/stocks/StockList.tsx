@@ -8,10 +8,10 @@ import Container from 'react-bootstrap/Container';
 
 interface StockListProps {
     stocks: Stock[];
-    onSave: (stock: Stock) => void
+    onBuy: (stock: Stock) => void
 }
 
-function StockList({ stocks, onSave }: StockListProps) {
+function StockList({ stocks, onBuy }: StockListProps) {
     const [stockBeingSold, setStockBeingSold] = useState({});
     const handleBuy = (stockToSell: Stock) => {
         setStockBeingSold(stockToSell);
@@ -22,7 +22,7 @@ function StockList({ stocks, onSave }: StockListProps) {
     const items = stocks.map(stock => (
         <div key={stock.id} className="cols-sm">
             {stock === stockBeingSold ? (
-                <StockForm onCancel={handleCancel} onSave={onSave} />
+                <StockForm onCancel={handleCancel} onBuy={onBuy} stock={stock} />
             ) : (
                 <StockCard stock={stock} onBuy={handleBuy} />
             )}

@@ -39,7 +39,7 @@ export const MOCK_STOCK = [
     }),
     new Stock({
         id: 5,
-        name: 'ALPHA',
+        name: 'ALPHA1',
         description: 'Do you care about speed and performance in algorithms, look no further',
         imageUrl: '/google.png',
         isActive: true,
@@ -48,7 +48,7 @@ export const MOCK_STOCK = [
     }),
     new Stock({
         id: 6,
-        name: 'ALPHA',
+        name: 'ALPHA2',
         description: 'Do you care about speed and performance in algorithms, look no further',
         imageUrl: '/google.png',
         isActive: true,
@@ -57,7 +57,7 @@ export const MOCK_STOCK = [
     }),
     new Stock({
         id: 7,
-        name: 'ALPHA',
+        name: 'ALPHA3',
         description: 'Do you care about speed and performance in algorithms, look no further',
         imageUrl: '/google.png',
         isActive: true,

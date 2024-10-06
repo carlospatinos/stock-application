@@ -1,6 +1,7 @@
 
 import { Stock } from './Stock';
-const baseUrl = 'http://localhost:8080/api';
+// const baseUrl = 'http://localhost:8080/api';
+const baseUrl = 'http://localhost:4000'
 const url = `${baseUrl}/stocks`;
 
 function translateStatusToErrorMessage(status: number) {
@@ -53,7 +54,7 @@ function convertToProjectModel(item: any): Stock {
 const stockAPI = {
     get(page = 1, limit = 20) {
         return fetch(`${url}?_page=${page}&_limit=${limit}&_sort=name`)
-            .then(delay(600))
+            .then(delay(100))
             .then(checkStatus)
             .then(parseJSON)
             .then(convertToProjectModels)
@@ -61,6 +62,40 @@ const stockAPI = {
                 console.log('log client error ' + error);
                 throw new Error(
                     'There was an error retrieving the stocks. Please try again.'
+                );
+            });
+    },
+    post(stock: Stock) {
+        return fetch(`${url}`, {
+            method: 'POST', body: JSON.stringify(stock), headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(delay(100))
+            .then(checkStatus)
+            .then(parseJSON)
+            .then(convertToProjectModels)
+            .catch((error: TypeError) => {
+                console.log('log client error ' + error);
+                throw new Error(
+                    'There was an error retrieving the stocks. Please try again.'
+                );
+            });
+    },
+    put(stock: Stock) {
+        return fetch(`${url}/${stock.id}`, {
+            method: 'PUT',
+            body: JSON.stringify(stock),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(checkStatus)
+            .then(parseJSON)
+            .catch((error: TypeError) => {
+                console.log('log client error ' + error);
+                throw new Error(
+                    'There was an error updating the project. Please try again.'
                 );
             });
     },

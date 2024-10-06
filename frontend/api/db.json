@@ -1,0 +1,50 @@
+{
+  "stocks": [
+    {
+      "id": 1,
+      "name": "SSTK",
+      "description": "Shutterstock is an amazing company focusing on stock photography",
+      "imageUrl": "/sstk.png",
+      "isActive": true,
+      "price": 10.12,
+      "availableUnits": 20
+    },
+    {
+      "id": 2,
+      "name": "Coquita",
+      "description": "Coca cola, the main fizzy drink over the world",
+      "imageUrl": "/coca.png",
+      "price": 12.5,
+      "availableUnits": 30,
+      "isActive": true,
+      "amount": 10
+    },
+    {
+      "id": 3,
+      "name": "ERIC",
+      "description": "Worldwide telecom provider handling 40% of worlds traffic",
+      "imageUrl": "/ericsson.png",
+      "isActive": true,
+      "price": 19.5,
+      "availableUnits": 30
+    },
+    {
+      "id": 4,
+      "name": "OKTA",
+      "description": "If you are into security and single sign on, this is the place to go ",
+      "imageUrl": "/okta.png",
+      "isActive": true,
+      "price": 18.2,
+      "availableUnits": 30
+    },
+    {
+      "id": 5,
+      "name": "Apple",
+      "description": "Apple Inc. is an American multinational corporation and technology company headquartered in Silicon Valley",
+      "imageUrl": "/apple.png",
+      "isActive": true,
+      "price": 22.87,
+      "availableUnits": 30
+    }
+  ]
+}

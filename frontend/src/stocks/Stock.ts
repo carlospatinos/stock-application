@@ -6,6 +6,7 @@ export class Stock {
     price: number = 0;
     availableUnits: number | undefined;
     isActive: boolean = false;
+    amount: number = 0;
 
     constructor(initializer?: any) {
         if (!initializer) return;
@@ -16,5 +17,6 @@ export class Stock {
         if (initializer.price) this.price = initializer.price;
         if (initializer.availableUnits) this.availableUnits = initializer.availableUnits;
         if (initializer.isActive) this.isActive = initializer.isActive;
+        if (initializer.amount) this.amount = initializer.amount;
     }
 }
