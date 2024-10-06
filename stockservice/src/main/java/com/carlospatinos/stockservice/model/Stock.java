@@ -20,4 +20,9 @@ public class Stock implements Serializable {
     private Double price;
     @lombok.NonNull
     private Integer availableUnits;
+
+    private Integer id;
+    private String description;
+    private String imageUrl;
+    private Integer amount;
 }

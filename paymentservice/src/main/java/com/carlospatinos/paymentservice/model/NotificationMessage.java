@@ -1,4 +1,4 @@
-package com.carlospatinos.notificationservice.model;
+package com.carlospatinos.paymentservice.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,13 +8,11 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-@ToString
-public class NotificationRequest {
+@AllArgsConstructor
+@ToString(includeFieldNames = false)
+public class NotificationMessage {
+    private String user;
     private String title;
     private String body;
-    private String image;
-    private String token;
-    private String user;
 }

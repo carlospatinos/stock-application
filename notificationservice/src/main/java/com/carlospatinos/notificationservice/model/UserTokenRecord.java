@@ -1,5 +1,7 @@
 package com.carlospatinos.notificationservice.model;
 
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,13 +10,10 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-@ToString
-public class NotificationRequest {
-    private String title;
-    private String body;
-    private String image;
+@AllArgsConstructor
+@ToString(includeFieldNames = false)
+public class UserTokenRecord implements Serializable {
+    private String username;
     private String token;
-    private String user;
 }
