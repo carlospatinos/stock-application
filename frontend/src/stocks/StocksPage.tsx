@@ -1,12 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { MOCK_STOCK } from './MockStocks';
+// import { MOCK_STOCK } from './MockStocks';
 import StockList from './StockList';
 import { Stock } from './Stock';
+import { Transaction } from '../transactions/Transaction';
 import { stockAPI } from './stockAPI';
-import Alert from 'react-bootstrap/Alert';
+import { transactionAPI } from '../transactions/transactionAPI';
+import { subscriptionAPI } from '../notifications/notificationsAPI';
+import NotificationMessage from "../notifications/NotificationMessage";
+import { NotificationSubscription } from "../notifications/NotificationSubscription";
 
+import Alert from 'react-bootstrap/Alert';
+import { getToken, onMessage } from "firebase/messaging";
+import { messaging } from "../firebase/firebaseConfig";
+import { toast } from "react-toastify";
 
 function StockPage() {
+    const { REACT_APP_VAPID_KEY } = process.env;
+
     const [stocks, setStocks] = useState<Stock[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | undefined>(undefined);
@@ -14,7 +24,13 @@ function StockPage() {
 
     const handleBuyStock = async (stock: Stock) => {
         console.log('Buying stock: ', stock);
-        const data = await stockAPI.post(stock).catch((e) => {
+        const transaction = new Transaction({ userName: 'carlos', stockName: stock.name, price: stock.price, amount: stock.amount });
+        // const data = await stockAPI.post(stock).catch((e) => {
+        //     if (e instanceof Error) {
+        //         setError(e.message);
+        //     }
+        // });
+        const data = await transactionAPI.post(transaction).catch((e) => {
             if (e instanceof Error) {
                 setError(e.message);
             }
@@ -26,7 +42,42 @@ function StockPage() {
         setCurrentPage((currentPage) => currentPage + 1);
     };
 
+
+    onMessage(messaging, payload => {
+        console.log("incoming msg");
+        console.log(payload);
+        toast(<NotificationMessage notification={payload.notification} />);
+    });
+
     useEffect(() => {
+        async function requestPermission() {
+            //requesting permission using Notification API
+            const permission = await Notification.requestPermission();
+
+            if (permission === "granted") {
+                const token = await getToken(messaging, {
+                    vapidKey: REACT_APP_VAPID_KEY,
+                });
+
+                //We can send token to server 
+                console.log("Token generated : ", token);
+
+                try {
+                    const notificationSubscription = new NotificationSubscription({ user: 'carlos', token: token });
+                    console.log(notificationSubscription);
+                    const tokenCreation = await subscriptionAPI.post(notificationSubscription);
+                    console.log(tokenCreation);
+                } catch (e) {
+                    if (e instanceof Error) {
+                        console.log(e);
+                    }
+                }
+
+            } else if (permission === "denied") {
+                //notifications are blocked
+                alert("You denied for the notification");
+            }
+        };
         async function loadProjects() {
             setLoading(true);
             try {
@@ -49,7 +100,8 @@ function StockPage() {
             }
         }
         loadProjects();
-    }, [currentPage]);
+        requestPermission();
+    }, [currentPage, REACT_APP_VAPID_KEY]);
 
     return (<>
         <div className="center-page">

@@ -47,10 +47,10 @@
       "availableUnits": 30
     }
   ],
-  "notifications": [
+  "subscription": [
     {
       "user": "carlos",
-      "token": "cAuzAzNOVg91yOwaNvqZjL:APA91bF97HkNkva8rMkzIjmbEpUvgQmPNXhxQwh6lPVcoc_d3NM9fqai_jPtwn1ZLbmsIw1I5QIMoVHEatCteO3mypcFP1XKsQyNdPm1sHwONCHESDszSGcwFs6jLRDj4IEyeDMwA5en"
+      "token": "token"
     }
   ]
 }

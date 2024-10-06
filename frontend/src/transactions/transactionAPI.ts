@@ -1,18 +1,19 @@
 
-import { Stock } from './Stock';
+// TOO get a transactionObject
+import { Transaction } from './Transaction';
 // TODO move to a config file
 const baseUrl = 'http://localhost:8080/api';
 // const baseUrl = 'http://localhost:4000'
-const url = `${baseUrl}/stocks`;
+const url = `${baseUrl}/transactions`;
 
 function translateStatusToErrorMessage(status: number) {
     switch (status) {
         case 401:
             return 'Please login again.';
         case 403:
-            return 'You do not have permission to view the stock(s).';
+            return 'You do not have permission to view the transaction(s).';
         default:
-            return 'There was an error retrieving the stock(s). Please try again.';
+            return 'There was an error retrieving the transaction(s). Please try again.';
     }
 }
 
@@ -43,64 +44,47 @@ function delay(ms: number) {
     };
 }
 
-function convertToStockModels(data: any[]): Stock[] {
+function convertToTransactionModels(data: any[]): Transaction[] {
     console.log(data)
-    let stocks: Stock[] = data.map(convertToStockModel);
-    return stocks;
+    let transactions: Transaction[] = data.map(convertToTransactionModel);
+    return transactions;
 }
 
-function convertToStockModel(item: any): Stock {
-    return new Stock(item);
+function convertToTransactionModel(item: any): Transaction {
+    return new Transaction(item);
 }
 
-const stockAPI = {
+const transactionAPI = {
     get(page = 1, limit = 20) {
         return fetch(`${url}?_page=${page}&_limit=${limit}&_sort=name`)
             .then(delay(100))
             .then(checkStatus)
             .then(parseJSON)
-            .then(convertToStockModels)
+            .then(convertToTransactionModels)
             .catch((error: TypeError) => {
                 console.log('log client error ' + error);
                 throw new Error(
-                    'There was an error retrieving the stocks. Please try again.'
+                    'There was an error retrieving the transactions. Please try again.'
                 );
             });
     },
-    post(stock: Stock) {
+    post(transaction: Transaction) {
         return fetch(`${url}`, {
-            method: 'POST', body: JSON.stringify(stock), headers: {
+            method: 'POST', body: JSON.stringify(transaction), headers: {
                 'Content-Type': 'application/json'
             }
         })
             .then(delay(100))
             .then(checkStatus)
             .then(parseJSON)
-            // .then(convertToStockModels)
+            // .then(convertToTransactionModels)
             .catch((error: TypeError) => {
                 console.log('log client error ' + error);
                 throw new Error(
-                    'There was an error retrieving the stocks. Please try again.'
-                );
-            });
-    },
-    put(stock: Stock) {
-        return fetch(`${url}/${stock.id}`, {
-            method: 'PUT',
-            body: JSON.stringify(stock),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(checkStatus)
-            .then(parseJSON)
-            .catch((error: TypeError) => {
-                console.log('log client error ' + error);
-                throw new Error(
-                    'There was an error updating the project. Please try again.'
+                    'There was an error retrieving the transactions. Please try again.'
                 );
             });
     },
 };
 
-export { stockAPI };
+export { transactionAPI };
