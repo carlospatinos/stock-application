@@ -23,7 +23,7 @@ public class PaymentServiceApplication {
 	// @Bean
 	// public ApplicationRunner runner(KafkaTemplate<String, String> template) {
 	// return args -> {
-	// template.send("stocktopic", "sendNotification");
+	// template.send("stocktopic", "test-notification");
 	// };
 	// }
 

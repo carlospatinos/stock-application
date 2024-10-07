@@ -24,7 +24,9 @@ function StockPage() {
 
     const handleBuyStock = async (stock: Stock) => {
         console.log('Buying stock: ', stock);
-        const transaction = new Transaction({ userName: 'carlos', stockName: stock.name, price: stock.price, amount: stock.amount });
+        const username = localStorage.getItem('username');
+        console.log('username: ' + username)
+        const transaction = new Transaction({ userName: username, stockName: stock.name, price: stock.price, amount: stock.amount });
         // const data = await stockAPI.post(stock).catch((e) => {
         //     if (e instanceof Error) {
         //         setError(e.message);
@@ -63,7 +65,9 @@ function StockPage() {
                 console.log("Token generated : ", token);
 
                 try {
-                    const notificationSubscription = new NotificationSubscription({ user: 'carlos', token: token });
+                    const username = localStorage.getItem('username');
+                    console.log('username: ' + username)
+                    const notificationSubscription = new NotificationSubscription({ user: username, token: token });
                     console.log(notificationSubscription);
                     const tokenCreation = await subscriptionAPI.post(notificationSubscription);
                     console.log(tokenCreation);

@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import com.carlospatinos.paymentservice.model.NotificationMessage;
+import com.carlospatinos.stockservice.StockMessage;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,18 +25,16 @@ public class KafkaListenerComponent {
     @Autowired
     private RestTemplate restTemplate;
 
-    // TODO remove this hardcoded topic
-    @KafkaListener(topics = "stocktopic", groupId = "group1")
-    void listener(String data) {
-        log.info("Received message [{}] in group1", data);
+    @KafkaListener(topics = "${application.topic}", containerFactory = "kafkaListenerContainerFactory", groupId = "${spring.kafka.consumer.group-id}")
+    public void listen(Message<StockMessage> transactionEventMessage) {
+        log.info("Starting consuming from topic - {}", transactionEventMessage);
+        StockMessage stockMesage = transactionEventMessage.getPayload();
+        NotificationMessage message = new NotificationMessage(stockMesage.getUser(),
+                "Congratulations",
+                "New stock [" + stockMesage.getName() + "] in your portfolio.");
 
-        NotificationMessage message = new NotificationMessage("carlos", "Congratulations",
-                "New stock in your portfolio.");
-
-        // restTemplate = new RestTemplate();
         ResponseEntity<String> result = restTemplate.postForEntity(submissionUrl,
                 message, String.class);
         log.info("Result: {}", result);
-
     }
 }

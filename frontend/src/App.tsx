@@ -18,6 +18,7 @@ function App() {
   const handleLogin = (username: string) => {
     setActiveUser(username);
     console.log(username);
+    localStorage.setItem('username', username);
   }
   return (
     <div className="App">
