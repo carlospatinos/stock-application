@@ -1,0 +1,28 @@
+{
+  "type": "record",
+  "name": "StockMessage",
+  "namespace": "com.carlospatinos.stockservice",
+  "fields": [
+    { "name": "name", "type": "string", "doc": "Stock Name" },
+    {
+      "name": "user",
+      "type": "string",
+      "doc": "Person making the transaction."
+    },
+    {
+      "name": "amount",
+      "type": "int",
+      "doc": "Amount of stocks to get."
+    },
+    {
+      "name": "price",
+      "type": "double",
+      "doc": "Stock price"
+    },
+    {
+      "name": "availableUnits",
+      "type": "int",
+      "doc": "Units Available"
+    }
+  ]
+}

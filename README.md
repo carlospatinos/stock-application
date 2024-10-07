@@ -3,7 +3,7 @@ Sample application using react, spring boot (both rest-api and messages), kafka 
 Docker, docker-compose, lucidchart and other technologies.
 
 # Build state
-A github action workflow will be defined to show the status of the project.
+A github action workflow is in place showing the status of the 4 different sub-projects.
 
 ![BUILD](https://github.com/carlospatinos/stock-application/actions/workflows/gradle-build.yml/badge.svg)
 
@@ -24,6 +24,9 @@ Here you will have a mix of projects living under the same home (same git repo).
 
 ```mermaid
 flowchart
+    frontendService["`<3000>
+    FrontEnd Service`"]
+
     stockService["`<8080>
     Stock Service`"]
     
@@ -32,9 +35,6 @@ flowchart
     
     notificationService["`<8082>
     Notification Service`"]
-
-    frontendService["`<3000>
-    FrontEnd Service`"]
 ```
 
 # Run
@@ -53,13 +53,31 @@ Make sure the project compiles. Go into the different sub-projects and compile t
 ./gradlew bootRun
 ```
 
+There is a specific profile (prod) for those services using kafka. As default they have kafka disabled to make sure CucumberTesting and SprigBoot testing run fast. 
+
+```sh
+./gradlew bootrun --args='--spring.profiles.active=prod'
+```
+
+# API Documentation
+
+OpenAPI package has been enabled to provide high level swagger docs. Each SpringBoot app exposing REST-Endpoints contains basic details. Those have to be improved going forward.
+
+- http://localhost:8080/api/swagger-ui/index.html#/ 
+- http://localhost:8082/api/swagger-ui/index.html#/
+
+## Kafka Registry
+- http://localhost:8091/subjects/stocktopic-value/versions/1
+
 # Monitoring
 
 Each microservice exposes some metrics in the following endpoint: 
-http://localhost:8080/actuator 
+- http://localhost:8080/api/actuator 
+- http://localhost:8081/api/actuator 
+- http://localhost:8082/api/actuator 
 
 # TODOs
-- [ ] Cucumber 
-- [ ] OpenAPI
-- [ ] FrondEnd consuming stockApp api
-- [ ] Kafka message for buying operationß
+- [x] Cucumber 
+- [x] OpenAPI
+- [x] FrondEnd consuming stockApp api
+- [x] Kafka message for buying operation

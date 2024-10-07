@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.3.4'
 	id 'io.spring.dependency-management' version '1.1.6'
+	id 'com.github.davidmc24.gradle.plugin.avro' version "1.9.1" 
 }
 
 group = 'com.carlospatinos'
@@ -21,6 +22,10 @@ configurations {
 
 repositories {
 	mavenCentral()
+	gradlePluginPortal()
+    maven {
+        url "https://packages.confluent.io/maven"
+    }
 }
 
 dependencies {
@@ -36,15 +41,43 @@ dependencies {
 
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0'
 
+	implementation 'io.cucumber:cucumber-java:7.12.1'
+	implementation 'io.cucumber:cucumber-spring:7.12.1'
+	testImplementation 'io.cucumber:cucumber-junit:7.12.1'
 
-	implementation 'io.cucumber:cucumber-java:7.14.0'
-	implementation 'io.cucumber:cucumber-spring:7.14.0'
-	testImplementation 'io.cucumber:cucumber-junit:7.14.0'
-	testImplementation 'io.cucumber:cucumber-junit-platform-engine:7.14.0'
-	implementation 'org.springframework.boot:spring-boot-configuration-processor:3.1.6'
-	testImplementation 'org.junit.platform:junit-platform-suite-api:1.11.2'
+	implementation "org.apache.avro:avro:1.11.0"
+	implementation 'io.confluent:kafka-avro-serializer:7.5.3'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+configurations {
+    cucumberRuntime {
+        extendsFrom testImplementation
+    }
+}
+
+task cucumberCli() {
+    dependsOn assemble, testClasses
+    doLast {
+        javaexec {
+            main = "io.cucumber.core.cli.Main"
+            classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
+            args = [
+              '--plugin', 'pretty',
+              '--plugin', 'html:build/cucumber-report.html', 
+              '--glue', 'com.carlospatinos.stockservice.steps', 
+              'src/test/resources']
+        }
+    }
+}
+
+
+def avroSchemasDir = "src/main/avro"
+// def avroSchemasDir = "src/main/resources/avro"
+def avroCodeGenerationDir = "build/generated-main-avro-java"
+
+// Add the generated Avro Java code to the Gradle source files.
+sourceSets.main.java.srcDirs += [avroCodeGenerationDir]

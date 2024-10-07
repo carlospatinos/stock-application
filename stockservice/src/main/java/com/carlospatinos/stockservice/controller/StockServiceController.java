@@ -3,9 +3,10 @@ package com.carlospatinos.stockservice.controller;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,8 +20,10 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @Slf4j
-@CrossOrigin(origins = { "http://localhost:3000" })
 public class StockServiceController {
+    @Value(value = "${application.version}")
+    private String APPLICATION_VERSION;
+
     private List<Stock> stockList;
 
     @PostConstruct
@@ -63,6 +66,6 @@ public class StockServiceController {
 
     @GetMapping("/version")
     public String getVersion() {
-        return "1.0";
+        return Optional.ofNullable(APPLICATION_VERSION).orElse("N/A");
     }
 }

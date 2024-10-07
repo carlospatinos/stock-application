@@ -31,8 +31,24 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	implementation 'com.google.firebase:firebase-admin:9.2.0'	
+
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0'
+
+
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+task cucumber() {
+    dependsOn assemble, testClasses
+    doLast {
+        javaexec {
+            main = "io.cucumber.core.cli.Main"
+            classpath = sourceSets.main.output + sourceSets.test.output
+            args = ['--plugin', 'pretty', 
+            '--glue', 'com.carlospatinos.notificationservice.cucumber', 'src/test/resources']
+        }
+    }
 }
