@@ -18,6 +18,11 @@ Here you will have a mix of projects living under the same home (same git repo).
 - Gradle (alternatively you can use the wrapper here gradlew)
 - Docker 
 - Docker compose 
+- Firebase configuration
+  - Please set up your project following these instructions: 
+    - https://youtu.be/s8dFprr7COo  
+    - https://youtu.be/uI4mVtxiwnY 
+  - You will need firebase credentials to send notifications.
 
 
 # Ports required
@@ -67,14 +72,36 @@ OpenAPI package has been enabled to provide high level swagger docs. Each Spring
 - http://localhost:8082/api/swagger-ui/index.html#/
 
 ## Kafka Registry
+
 - http://localhost:8091/subjects/stocktopic-value/versions/1
 
 # Monitoring
 
 Each microservice exposes some metrics in the following endpoint: 
-- http://localhost:8080/api/actuator 
-- http://localhost:8081/api/actuator 
-- http://localhost:8082/api/actuator 
+- [stockService](http://localhost:8080/api/actuator)
+- [paymentService](http://localhost:8081/api/actuator)
+- [notificationService](http://localhost:8082/api/actuator)
+
+On top of that, you can enable ELK for log gathering. A docker-compose.yml file has been created to start logstash, kafka and kibana and the data flows as below:
+
+![Log Flow](https://github.com/carlospatinos/stock-application/blob/main/doc/elk.png?raw=true)
+
+Please modify the .env file inside docker/elk to point to the absolute path location of your application logs. 
+
+You can check data is being sent to logstash here 
+- http://localhost:9200/_cat/indices
+
+You must configure kibana to show your data, creating indexes for all the services you are pulling data from. 
+
+Go here to configure the indexes per application 
+- http://localhost:5601/app/management/kibana/indexPatterns
+
+On clicking "Create index pattern", enter the index name as you have mentioned under logstash.conf file’s "index" field i.e order-service and payment-service. Timestamp is optional and then click on "Create index pattern".
+
+Finally go to here to see the data coming from your applications.
+- http://localhost:5601/app/discover# 
+
+
 
 # TODOs
 - [x] Cucumber 

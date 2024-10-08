@@ -11,6 +11,7 @@ import org.springframework.web.client.RestTemplate;
 import com.carlospatinos.paymentservice.model.NotificationMessage;
 import com.carlospatinos.stockservice.StockMessage;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
@@ -28,10 +29,17 @@ public class KafkaListenerComponent {
     @KafkaListener(topics = "${application.topic}", containerFactory = "kafkaListenerContainerFactory", groupId = "${spring.kafka.consumer.group-id}")
     public void listen(Message<StockMessage> transactionEventMessage) {
         log.info("Starting consuming from topic - {}", transactionEventMessage);
-        StockMessage stockMesage = transactionEventMessage.getPayload();
-        NotificationMessage message = new NotificationMessage(stockMesage.getUser(),
+        StockMessage stockMessage = transactionEventMessage.getPayload();
+
+        sendNotification(stockMessage);
+    }
+
+    // , fallbackMethod = "getCountries"
+    @CircuitBreaker(name = "notificationServiceCircuitBreaker")
+    private void sendNotification(StockMessage stockMessage) {
+        NotificationMessage message = new NotificationMessage(stockMessage.getUser(),
                 "Congratulations",
-                "New stock [" + stockMesage.getName() + "] in your portfolio.");
+                "New stock [" + stockMessage.getName() + "] in your portfolio.");
 
         ResponseEntity<String> result = restTemplate.postForEntity(submissionUrl,
                 message, String.class);
