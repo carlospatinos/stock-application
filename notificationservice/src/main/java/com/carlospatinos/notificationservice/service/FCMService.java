@@ -1,8 +1,6 @@
 package com.carlospatinos.notificationservice.service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import org.slf4j.Logger;
@@ -13,7 +11,6 @@ import org.springframework.stereotype.Service;
 import com.carlospatinos.notificationservice.db.model.UserToken;
 import com.carlospatinos.notificationservice.db.repository.UserTokenRepository;
 import com.carlospatinos.notificationservice.model.NotificationRequest;
-import com.carlospatinos.notificationservice.model.UserTokenRecord;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.Notification;
@@ -26,14 +23,11 @@ import lombok.extern.slf4j.Slf4j;
 public class FCMService {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    private Map<String, UserTokenRecord> userTokenRegistry;
-
     @Autowired
     private UserTokenRepository userTokenRepository;
 
     @PostConstruct
     public void initialize() {
-        userTokenRegistry = new HashMap<>();
     }
 
     private String sendAndGetResponse(Message message) throws InterruptedException, ExecutionException {
@@ -68,10 +62,6 @@ public class FCMService {
 
     public void subscribeNotification(NotificationRequest request) {
         log.info("request: {}", request);
-
-        userTokenRegistry.put(request.getUser(),
-                new UserTokenRecord(request.getUser(),
-                        request.getToken()));
 
         UserToken userToken = new UserToken();
         userToken.setAppToken(request.getToken());
