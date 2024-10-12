@@ -1,13 +1,17 @@
 package com.carlospatinos.notificationservice.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.carlospatinos.notificationservice.db.model.UserToken;
+import com.carlospatinos.notificationservice.db.repository.UserTokenRepository;
 import com.carlospatinos.notificationservice.model.NotificationRequest;
 import com.carlospatinos.notificationservice.model.UserTokenRecord;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -24,6 +28,9 @@ public class FCMService {
 
     private Map<String, UserTokenRecord> userTokenRegistry;
 
+    @Autowired
+    private UserTokenRepository userTokenRepository;
+
     @PostConstruct
     public void initialize() {
         userTokenRegistry = new HashMap<>();
@@ -37,30 +44,39 @@ public class FCMService {
         Notification notification = Notification.builder().setTitle(request.getTitle()).setBody(request.getBody())
                 .build();
 
-        // TODO send the message to saved token
-        UserTokenRecord savedUser = userTokenRegistry.get(request.getUser());
-        log.info("savedUser: {}", savedUser);
+        List<UserToken> persistedUsers = userTokenRepository.findByAppUser(request.getUser());
 
-        Message message = null;
-        if (savedUser != null && savedUser.getToken() != null) {
-            message = Message.builder().setNotification(notification).setToken(savedUser.getToken()).build();
-        } else if (request != null && request.getToken() != null) {
-            message = Message.builder().setNotification(notification).setToken(request.getToken()).build();
-        } else {
-            logger.error("Token mapping for user [{}] not found", request.getUser());
-            return;
+        for (UserToken userToken : persistedUsers) {
+            log.info("Sending mesasge to persistedUser {}", userToken);
+
+            Message message = null;
+            if (userToken != null && userToken.getAppToken() != null) {
+                message = Message.builder().setNotification(notification).setToken(userToken.getAppToken()).build();
+            } else if (request != null && request.getToken() != null) {
+                message = Message.builder().setNotification(notification).setToken(request.getToken()).build();
+            } else {
+                logger.error("Token mapping for user [{}] not found", request.getUser());
+                return;
+            }
+
+            // Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            // String jsonOutput = gson.toJson(message);
+            String response = sendAndGetResponse(message);
+            logger.info("Sent message response {}", response);
         }
-
-        // Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        // String jsonOutput = gson.toJson(message);
-        String response = sendAndGetResponse(message);
-        logger.info("Sent message response {}", response);
     }
 
     public void subscribeNotification(NotificationRequest request) {
         log.info("request: {}", request);
+
         userTokenRegistry.put(request.getUser(),
                 new UserTokenRecord(request.getUser(),
                         request.getToken()));
+
+        UserToken userToken = new UserToken();
+        userToken.setAppToken(request.getToken());
+        userToken.setAppUser(request.getUser());
+        userTokenRepository.save(userToken);
+
     }
 }

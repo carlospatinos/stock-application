@@ -5,6 +5,7 @@ notificationservice/src/main/resources/fcm-credentials-stock.json
 
 # Log file
 *.log
+*.db
 
 # BlueJ files
 *.ctxt

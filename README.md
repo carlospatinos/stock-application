@@ -101,6 +101,12 @@ On clicking "Create index pattern", enter the index name as you have mentioned u
 Finally go to here to see the data coming from your applications.
 - http://localhost:5601/app/discover# 
 
+# Circuit breaker example
+
+If you bring all services up, you can see the status of the circuit breaker here is closed. 
+http://localhost:8081/api/actuator/health
+
+You can bring notifications service down and see how the status changes. JPA has been implemented to persist user token on the filesystem and you can shut the app down and up to see the effects of notifications service and circuit breaker.
 
 
 # TODOs
@@ -108,3 +114,5 @@ Finally go to here to see the data coming from your applications.
 - [x] OpenAPI
 - [x] FrondEnd consuming stockApp api
 - [x] Kafka message for buying operation
+- [x] Circuit breaker implementation on payment service
+- [ ] JPA on notification service
