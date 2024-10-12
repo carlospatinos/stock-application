@@ -47,7 +47,7 @@ flowchart
 For the required infrastructure, a docker-compose file has been created inside docker folder which will pull images for kafka, zookeeper and schema registry. This needs to be up and running before any of the sub-projects is started as some of them will require kafka to work.
 
 ```sh
-cd docker
+cd docker/kafka
 docker-compose up
 ```
 

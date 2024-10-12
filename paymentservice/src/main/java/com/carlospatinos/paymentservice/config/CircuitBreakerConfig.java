@@ -8,11 +8,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import io.github.resilience4j.common.circuitbreaker.configuration.CircuitBreakerConfigCustomizer;
+import lombok.extern.slf4j.Slf4j;
 
 @Configuration
+@Slf4j
 public class CircuitBreakerConfig {
     @Bean
     public CircuitBreakerConfigCustomizer externalServiceFooCircuitBreakerConfig() {
+        log.info("notificationServiceCircuitBreaker running.");
         return CircuitBreakerConfigCustomizer
                 .of("notificationServiceCircuitBreaker",
                         builder -> builder.slidingWindowSize(10)

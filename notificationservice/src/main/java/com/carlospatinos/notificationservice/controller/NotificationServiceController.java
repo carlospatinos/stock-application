@@ -44,6 +44,8 @@ public class NotificationServiceController {
     public ResponseEntity<?> sendNotification2(@RequestBody NotificationRequest request)
             throws InterruptedException, ExecutionException {
 
+        log.info("Submitting a notification: ", request);
+
         fcmService.sendMessageToToken(request);
 
         return ResponseEntity.ok("Service working");
@@ -54,6 +56,7 @@ public class NotificationServiceController {
     public ResponseEntity<?> subscribe(@RequestBody NotificationRequest request)
             throws InterruptedException, ExecutionException {
 
+        log.info("Subscribing a notification: ", request);
         fcmService.subscribeNotification(request);
 
         return ResponseEntity.ok("Service working");

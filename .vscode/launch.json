@@ -8,21 +8,24 @@
             "type": "java",
             "name": "Current File",
             "request": "launch",
-            "mainClass": "${file}"
+            "mainClass": "${file}",
+            "args": "--spring.profiles.active=prod"
         },
         {
             "type": "java",
             "name": "PaymentServiceApplication",
             "request": "launch",
             "mainClass": "com.carlospatinos.paymentservice.PaymentServiceApplication",
-            "projectName": "paymentservice"
+            "projectName": "paymentservice",
+            "args": "--spring.profiles.active=prod"
         },
         {
             "type": "java",
             "name": "StockServiceApplication",
             "request": "launch",
             "mainClass": "com.carlospatinos.stockservice.StockServiceApplication",
-            "projectName": "stockservice"
+            "projectName": "stockservice",
+            "args": "--spring.profiles.active=prod"
         }
     ]
 }

@@ -2,25 +2,34 @@ version: "3"
 services:
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.17.13
+    container_name: elasticsearch
     ports:
       - "${ELASTICSEARCH_PORT_1}:9200"
       - "${ELASTICSEARCH_PORT_2}:9300"
     networks:
       - elk-network
     environment:
+      - node.name=elasticsearch
       - discovery.type=single-node
       - xpack.security.enabled=false
+      - logger.level=WARN
 
   logstash:
     image: docker.elastic.co/logstash/logstash:7.17.13
+    container_name: logstash
+    environment:
+      - LOG_LEVEL=info
     ports:
       - "${LOGSTASH_PORT}:5000"
       # some absolute path locations might be needed.
     volumes:
       - ./logstash.yml:/usr/share/logstash/config/logstash.yml
       - ./:/usr/share/logstash/config
-      - ../notificationservice/logs:/usr/share/logstash/logs
       - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      # - ./sample.log:/usr/share/logstash/logs/
+      - ../../notificationservice/logs/notifications-service.log:/usr/share/logstash/logs/notifications-service.log
+      - ../../stockservice/logs/stock-service.log:/usr/share/logstash/logs/stock-service.log
+      - ../../paymentservice/logs/payment-service.log:/usr/share/logstash/logs/payment-service.log
     command: ["-f", "/usr/share/logstash/config/logstash.conf"]
     depends_on:
       - elasticsearch
@@ -29,12 +38,16 @@ services:
 
   kibana:
     image: docker.elastic.co/kibana/kibana:7.17.13
+    container_name: kibana
     ports:
       - "${KIBANA_PORT}:5601"
     depends_on:
       - logstash
     networks:
       - elk-network
+    environment: # Sets the Elasticsearch URL and Node.js options for the Kibana container.
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+      - "NODE_OPTIONS=--max-old-space-size=2048"
 
 networks:
   elk-network:

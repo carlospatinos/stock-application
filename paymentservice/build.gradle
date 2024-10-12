@@ -44,7 +44,13 @@ dependencies {
 	implementation 'io.confluent:kafka-avro-serializer:7.5.3'
 
 	implementation 'org.springframework.boot:spring-boot-starter-aop'
-    implementation 'io.github.resilience4j:resilience4j-spring-boot2:1.7.1'
+	implementation 'io.github.resilience4j:resilience4j-spring-boot3:2.2.0'
+
+	// implementation 'org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j:2.1.7'
+	// developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	// implementation 'io.micrometer:micrometer-registry-prometheus'
+	// implementation 'io.github.resilience4j:resilience4j-reactor:2.2.0'
+
 }
 
 tasks.named('test') {
