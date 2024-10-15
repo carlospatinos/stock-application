@@ -23,6 +23,7 @@ public class ExternalApi {
     @Value(value = "${notificationservice.submission.url}")
     private String submissionUrl;
 
+    // @Retry(name = "notificationServiceCircuitBreakerRetry")
     @CircuitBreaker(name = "notificationServiceCircuitBreaker", fallbackMethod = "circuitOpen")
     public void sendNotification(StockMessage stockMessage) throws Exception {
         log.info("Trying to call external service: {}", stockMessage);
