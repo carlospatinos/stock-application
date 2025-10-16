@@ -51,6 +51,7 @@ cd docker/kafka
 docker-compose up
 ```
 
+## Backend
 Make sure the project compiles. Go into the different sub-projects and compile them and start each one of them.
 
 ```sh
@@ -63,6 +64,14 @@ There is a specific profile (prod) for those services using kafka. As default th
 ```sh
 ./gradlew bootrun --args='--spring.profiles.active=prod'
 ```
+
+## Front-end
+Go into the front-end project and start it 
+
+```sh
+npm start
+```
+
 
 # API Documentation
 
@@ -108,6 +117,9 @@ http://localhost:8081/api/actuator/health
 
 You can bring notifications service down and see how the status changes. JPA has been implemented to persist user token on the filesystem and you can shut the app down and up to see the effects of notifications service and circuit breaker.
 
+# Demo
+
+Demo is available in youtube  https://youtu.be/fwm0KcedgRY 
 
 # TODOs
 - [x] Cucumber 
