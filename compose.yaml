@@ -1,0 +1,41 @@
+services:
+  frontend-service:
+    build: ./frontend
+    container_name: front-end
+    working_dir: /usr/src/app
+    networks: 
+      - node-network
+    volumes: 
+      - ./frontend:/usr/src/app
+      - /usr/src/app/node_modules
+    tty: true
+    ports:
+      - "3000:3000"
+    command: npm start
+
+  stock-service:
+    build: ./stockservice
+    container_name: stock-service
+    networks: 
+      - node-network
+    ports:
+      - "8080:8080"
+
+  payment-service:
+    build: ./paymentservice
+    networks: 
+      - node-network
+    ports:
+      - "8081:8081"
+      
+  notification-service:
+    build: ./notificationservice
+    networks: 
+      - node-network
+    ports:
+      - "8082:8082"
+  # redis:
+  #   image: "redis:alpine"
+networks: 
+  node-network:
+    driver: bridge

@@ -72,6 +72,31 @@ Go into the front-end project and start it
 npm start
 ```
 
+# Docker
+
+You can build images locally with: 
+
+```sh
+# frontend
+docker build --tag stock-application-frontend .
+docker run -i -t stock-application-frontend /bin/bash
+
+# stockservice
+docker build --tag stock-application-stock-service .
+docker run -i -t -p 8080:8080 stock-application-stock-service /bin/bash
+docker run -t -p 8080:8080 stock-application-stock-service 
+
+# paymentservice
+docker build --tag stock-application-payment-service .
+docker run -i -t -p 8081:8081 stock-application-payment-service /bin/bash
+docker run -t -p 8081:8081 stock-application-payment-service
+
+# notificationservice
+docker build --tag stock-application-notification-service .
+docker run -i -t -p 8082:8082 stock-application-notification-service /bin/bash
+docker run -t -p 8082:8082 stock-application-notification-service 
+
+```
 
 # API Documentation
 
