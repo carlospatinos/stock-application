@@ -107,8 +107,22 @@ Go here to configure the indexes per application
 
 On clicking "Create index pattern", enter the index name as you have mentioned under logstash.conf file’s "index" field i.e order-service and payment-service. Timestamp is optional and then click on "Create index pattern".
 
+i.e.
+- notifications-service-2025.10.16
+- payment-service-2025.10.16
+- stock-service-2025.10.16
+
+
 Finally go to here to see the data coming from your applications.
 - http://localhost:5601/app/discover# 
+
+## Monitoring Demo
+
+Showcasing ELK and actuator, showing some simple search when kafka goes down, WARN messages go to ELK
+
+- https://youtu.be/a40RQ_iACYI
+- https://youtu.be/JA0xFzy0yF0
+
 
 # Circuit breaker example
 
